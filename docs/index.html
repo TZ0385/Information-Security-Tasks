@@ -247,6 +247,7 @@
     <a href="#ai">AI &amp; Agents</a>
     <a href="#defensive">Defensive</a>
     <a href="#reference">Reference</a>
+    <a href="#compliance">Compliance</a>
     <a href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/feeds">Daily Feed</a>
     <a class="nav-cta" href="https://github.com/bb1nfosec/Information-Security-Tasks/issues/new?template=submit-resource.yml">+ Submit</a>
   </div>
@@ -271,8 +272,8 @@
 <!-- ── Stats ──────────────────────────────────────────────────────────────── -->
 <div class="section" style="padding-bottom:48px">
   <div class="stats">
-    <div class="stat"><span class="stat-n">33+</span><span class="stat-l">Categories</span></div>
-    <div class="stat"><span class="stat-n">200+</span><span class="stat-l">Resources</span></div>
+    <div class="stat"><span class="stat-n">40+</span><span class="stat-l">Categories</span></div>
+    <div class="stat"><span class="stat-n">500+</span><span class="stat-l">Resources</span></div>
     <div class="stat"><span class="stat-n">Daily</span><span class="stat-l">CVE Feed</span></div>
     <div class="stat"><span class="stat-n">176 ★</span><span class="stat-l">GitHub Stars</span></div>
   </div>
@@ -284,7 +285,7 @@
     <div class="feed-dot"></div>
     <div class="feed-text">
       <strong>Daily Digest — live now</strong>
-      <span>SANS ISC · The Hacker News · Schneier · PortSwigger · NVD Critical CVEs · KitPloit — committed every day at 06:00 UTC</span>
+      <span>SANS ISC · The Hacker News · Schneier · PortSwigger · NVD CVEs · KitPloit · Telegram channels · X/Twitter — committed every day at 06:00 UTC</span>
     </div>
     <a class="btn btn-ghost" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/feeds" style="flex-shrink:0">Read Today's →</a>
   </div>
@@ -404,12 +405,25 @@
       <div class="track-head">
         <div class="track-icon" style="background:rgba(63,185,80,.12)">📱</div>
         <div>
-          <div class="track-title">Android Hacking</div>
-          <div class="track-sub">Frida, objection, SSL pinning</div>
+          <div class="track-title">Mobile Security</div>
+          <div class="track-sub">Android &amp; iOS — Frida, objection, cert pinning</div>
         </div>
       </div>
-      <div class="track-tags"><span class="tag">Frida</span><span class="tag">objection</span><span class="tag">SSL-pinning</span><span class="tag">GDB</span></div>
-      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/android-hacking"></a>
+      <div class="track-tags"><span class="tag">Frida</span><span class="tag">objection</span><span class="tag">SSL-pinning</span><span class="tag">OWASP-Mobile</span><span class="tag">iOS</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/mobile"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#8b949e,#e3b341)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(139,148,158,.12)">🖥️</div>
+        <div>
+          <div class="track-title">Thin Client &amp; Kiosk</div>
+          <div class="track-sub">Locked-down breakout — Citrix, RDP, GPO</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">Citrix</span><span class="tag">AppLocker</span><span class="tag">kiosk</span><span class="tag">GPO-bypass</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/thin-client-testing"></a>
     </div>
 
     <div class="track">
@@ -616,6 +630,66 @@
       </div>
       <div class="track-tags"><span class="tag">firmware</span><span class="tag">Bluetooth</span><span class="tag">Ubertooth</span><span class="tag">SDR</span></div>
       <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/hardware-hacking"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#f85149,#bc8cff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(248,81,73,.12)">🔭</div>
+        <div>
+          <div class="track-title">Vulnerability Analysis</div>
+          <div class="track-sub">Fuzzing, static analysis, CVE research</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">AFL++</span><span class="tag">Ghidra</span><span class="tag">fuzzing</span><span class="tag">CVSS</span><span class="tag">PoC</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/vulnerability-analysis"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#58a6ff,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(88,166,255,.12)">🖼️</div>
+        <div>
+          <div class="track-title">Steganography</div>
+          <div class="track-sub">Hide &amp; find data in images, audio, text</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">LSB</span><span class="tag">zsteg</span><span class="tag">steghide</span><span class="tag">CTF</span><span class="tag">spectrogram</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/steganography"></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Compliance ──────────────────────────────────────────────────────────── -->
+<div class="section" id="compliance">
+  <div class="section-title">Compliance &amp; Risk</div>
+  <div class="tracks">
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#58a6ff,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(88,166,255,.12)">📋</div>
+        <div>
+          <div class="track-title">Compliance &amp; Risk Assessment</div>
+          <div class="track-sub">ISO 27001, NIST, PCI-DSS, SOC 2, GDPR</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">ISO-27001</span><span class="tag">NIST-CSF</span><span class="tag">PCI-DSS</span><span class="tag">GDPR</span><span class="tag">CIS</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/compliance"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#e3b341,#58a6ff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(227,179,65,.12)">🏆</div>
+        <div>
+          <div class="track-title">CTF Techniques</div>
+          <div class="track-sub">Competitive hacking challenge skills</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">pwn</span><span class="tag">rev</span><span class="tag">crypto</span><span class="tag">web</span><span class="tag">steg</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/ctf"></a>
     </div>
 
   </div>
