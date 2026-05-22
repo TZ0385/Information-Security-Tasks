@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 """
-daily_feed.py — Aggregate infosec news, CVEs, and tool releases into a daily digest.
+daily_feed.py — Aggregate infosec news, CVEs, tool releases, Telegram channels,
+and X/Twitter security accounts into a daily digest.
 
 Sources:
   - SANS Internet Storm Center
   - The Hacker News
   - Schneier on Security
-  - NVD High/Critical CVEs (last 8 days feed)
+  - PortSwigger Research
+  - NVD High/Critical CVEs
   - KitPloit (tool releases)
   - GitHub trending security repos
+  - Telegram security channels (via RSSHub)
+  - X/Twitter security accounts (via RSSHub)
 
 Output: feeds/YYYY-MM-DD.md
 """
@@ -18,18 +22,48 @@ import sys
 import urllib.request
 import urllib.error
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from pathlib import Path
 
 TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 OUT   = Path(__file__).parent.parent / "feeds" / f"{TODAY}.md"
 
 RSS_SOURCES = [
-    ("SANS Internet Storm Center",  "https://isc.sans.edu/rssfeed_full.xml",   "news"),
+    ("SANS Internet Storm Center",  "https://isc.sans.edu/rssfeed_full.xml",      "news"),
     ("The Hacker News",             "https://feeds.feedburner.com/TheHackersNews", "news"),
-    ("Schneier on Security",        "https://www.schneier.com/feed/atom/",      "news"),
-    ("KitPloit",                    "https://feeds.feedburner.com/PentestTools", "tools"),
-    ("PortSwigger Research",        "https://portswigger.net/research/rss",     "news"),
+    ("Schneier on Security",        "https://www.schneier.com/feed/atom/",         "news"),
+    ("KitPloit",                    "https://feeds.feedburner.com/PentestTools",   "tools"),
+    ("PortSwigger Research",        "https://portswigger.net/research/rss",        "news"),
+]
+
+# Telegram channels via RSSHub (public, no API key needed)
+# RSSHub URL: https://rsshub.app/telegram/channel/{channel}
+TELEGRAM_CHANNELS = [
+    ("vxunderground",     "Malware samples & research",   "community"),
+    ("thehackernews",     "The Hacker News",              "community"),
+    ("cve_latest",        "Latest CVE alerts",            "community"),
+    ("malwrhunterteam",   "Malware Hunter Team",          "community"),
+    ("hackers_arise",     "Hackers-Arise",                "community"),
+    ("DarkFeedChannel",   "DarkFeed threat intel",        "community"),
+]
+
+# X/Twitter accounts via RSSHub (public accounts, no auth)
+# RSSHub URL: https://rsshub.app/twitter/user/{username}
+TWITTER_ACCOUNTS = [
+    ("GossiTheDog",      "Threat intel / ransomware",    "community"),
+    ("troyhunt",         "Breaches / HaveIBeenPwned",    "community"),
+    ("briankrebs",       "Investigative security news",  "community"),
+    ("cyb3rops",         "Sigma / detection engineering","community"),
+    ("SwiftOnSecurity",  "Blue team / Windows security", "community"),
+    ("vxunderground",    "Malware research",             "community"),
+    ("maddiestone",      "Zero-days / exploit research", "community"),
+]
+
+RSSHUB_BASE    = "https://rsshub.app"
+NITTER_MIRRORS = [
+    "https://nitter.privacydev.net",
+    "https://nitter.poast.org",
+    "https://nitter.net",
 ]
 
 NVD_FEED = "https://services.nvd.nist.gov/rest/json/cves/2.0?resultsPerPage=20&cvssV3Severity=CRITICAL"
@@ -123,6 +157,42 @@ def fetch_github_trending() -> list[dict]:
         return []
 
 
+def fetch_telegram_feeds() -> list[tuple[str, str, list[dict]]]:
+    """Fetch Telegram channels via RSSHub. Returns list of (channel, label, items)."""
+    results = []
+    for channel, label, _ in TELEGRAM_CHANNELS:
+        url = f"{RSSHUB_BASE}/telegram/channel/{channel}"
+        data = fetch(url, timeout=12)
+        if not data:
+            continue
+        items = parse_rss(data)
+        if items:
+            results.append((channel, label, items[:5]))
+    return results
+
+
+def fetch_twitter_feeds() -> list[tuple[str, str, list[dict]]]:
+    """Fetch X/Twitter accounts via RSSHub with Nitter fallback."""
+    results = []
+    for username, label, _ in TWITTER_ACCOUNTS:
+        items = []
+        # Try RSSHub first
+        data = fetch(f"{RSSHUB_BASE}/twitter/user/{username}", timeout=12)
+        if data:
+            items = parse_rss(data)
+        # Fallback: try Nitter mirrors
+        if not items:
+            for mirror in NITTER_MIRRORS:
+                data = fetch(f"{mirror}/{username}/rss", timeout=10)
+                if data:
+                    items = parse_rss(data)
+                    if items:
+                        break
+        if items:
+            results.append((username, label, items[:4]))
+    return results
+
+
 def build_digest() -> str:
     lines = [
         f"# InfoSec Daily Digest — {TODAY}",
@@ -181,7 +251,6 @@ def build_digest() -> str:
             lines.append("")
             tools_count += len(items)
 
-    # GitHub trending security repos (fetched fresh weekly to avoid rate limits)
     repos = fetch_github_trending()
     if repos:
         lines.append("### Trending on GitHub\n")
@@ -192,11 +261,39 @@ def build_digest() -> str:
     if tools_count == 0 and not repos:
         lines += ["_No tool releases fetched today._\n"]
 
+    # ── Community Feeds ───────────────────────────────────────────────────────
+    lines += ["## Community Feeds\n"]
+    community_count = 0
+
+    tg_feeds = fetch_telegram_feeds()
+    if tg_feeds:
+        lines.append("### Telegram Channels\n")
+        for channel, label, items in tg_feeds:
+            lines.append(f"**{label}** (@{channel})\n")
+            for item in items:
+                lines.append(f"- [{item['title']}]({item['link']})")
+            lines.append("")
+            community_count += len(items)
+
+    tw_feeds = fetch_twitter_feeds()
+    if tw_feeds:
+        lines.append("### X / Twitter\n")
+        for username, label, items in tw_feeds:
+            lines.append(f"**{label}** (@{username})\n")
+            for item in items:
+                lines.append(f"- [{item['title']}]({item['link']})")
+            lines.append("")
+            community_count += len(items)
+
+    if community_count == 0:
+        lines += ["_Community feeds unavailable today (RSSHub/Nitter may be rate-limited)._\n"]
+
     lines += [
         "---",
         "",
         "_Sources: SANS ISC · The Hacker News · Schneier on Security · "
-        "PortSwigger Research · KitPloit · NVD · GitHub_",
+        "PortSwigger Research · KitPloit · NVD · GitHub · "
+        "Telegram (RSSHub) · X/Twitter (RSSHub/Nitter)_",
     ]
     return "\n".join(lines) + "\n"
 
