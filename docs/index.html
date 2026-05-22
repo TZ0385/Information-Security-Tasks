@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infosec Gym — Information Security Tasks</title>
+<meta name="description" content="Free, community-driven infosec training resources. Pentest, malware, reverse engineering, web hacking, and more. Updated daily.">
+<style>
+  :root {
+    --bg:      #0d1117;
+    --surface: #161b22;
+    --border:  #21262d;
+    --green:   #3fb950;
+    --green2:  #238636;
+    --blue:    #58a6ff;
+    --purple:  #bc8cff;
+    --red:     #f85149;
+    --orange:  #e3b341;
+    --text:    #e6edf3;
+    --muted:   #8b949e;
+    --font:    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono:    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Nav ────────────────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,17,23,.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 24px; height: 56px;
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: -.3px;
+    white-space: nowrap;
+  }
+  .nav-logo span { color: var(--muted); font-weight: 400; }
+  .nav-links { display: flex; gap: 20px; margin-left: auto; }
+  .nav-links a { color: var(--muted); font-size: 13px; font-weight: 500; }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-cta {
+    background: var(--green2);
+    color: #fff !important;
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .nav-cta:hover { background: #2ea043; text-decoration: none !important; }
+
+  /* ── Hero ───────────────────────────────────────── */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 72px 24px 48px;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(63,185,80,.12);
+    border: 1px solid rgba(63,185,80,.3);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+  .hero h1 em { color: var(--green); font-style: normal; }
+  .hero p {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 32px;
+  }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .85; text-decoration: none; }
+  .btn-primary { background: var(--green2); color: #fff; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* ── Stats ──────────────────────────────────────── */
+  .stats {
+    display: flex; justify-content: center; gap: 0;
+    max-width: 600px; margin: 0 auto 64px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .stat {
+    flex: 1; padding: 16px 12px; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-n {
+    font-size: 24px; font-weight: 800;
+    font-family: var(--mono);
+    color: var(--green);
+    display: block;
+  }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; }
+
+  /* ── Section ────────────────────────────────────── */
+  .section { max-width: 1100px; margin: 0 auto; padding: 0 24px 64px; }
+  .section-title {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: ""; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── Track Cards ─────────────────────────────────── */
+  .tracks { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .track {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color .15s, transform .15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .track:hover { border-color: var(--green); transform: translateY(-2px); }
+  .track-accent {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .track-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .track-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .track-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .track-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .track-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+  .tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 4px;
+    background: rgba(255,255,255,.06); color: var(--muted);
+    font-family: var(--mono);
+  }
+  .track-link { position: absolute; inset: 0; }
+
+  /* ── Feed ────────────────────────────────────────── */
+  .feed-strip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .feed-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .4; }
+  }
+  .feed-text { flex: 1; min-width: 200px; }
+  .feed-text strong { display: block; font-size: 14px; margin-bottom: 3px; }
+  .feed-text span { font-size: 13px; color: var(--muted); }
+
+  /* ── Contribute ──────────────────────────────────── */
+  .contribute {
+    background: linear-gradient(135deg, rgba(63,185,80,.08) 0%, rgba(88,166,255,.08) 100%);
+    border: 1px solid rgba(63,185,80,.2);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .contribute h3 { font-size: 18px; margin-bottom: 6px; }
+  .contribute p { color: var(--muted); font-size: 14px; max-width: 480px; }
+
+  /* ── Footer ──────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .stats { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .contribute { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ───────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">infosec<span>/</span>gym</div>
+  <div class="nav-links">
+    <a href="#offensive">Offensive</a>
+    <a href="#defensive">Defensive</a>
+    <a href="#reference">Reference</a>
+    <a href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/feeds">Daily Feed</a>
+    <a class="nav-cta" href="https://github.com/bb1nfosec/Information-Security-Tasks/issues/new?template=submit-resource.yml">+ Submit</a>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-tag">Free · Open Source · Updated Daily</div>
+  <h1>Your <em>infosec gym</em>.<br>Train like it's a discipline.</h1>
+  <p>Community-driven notes, checklists, and techniques across pentest, malware dev, reverse engineering, web hacking, and more. No paywall. No signup.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="https://github.com/bb1nfosec/Information-Security-Tasks">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      Browse on GitHub
+    </a>
+    <a class="btn btn-ghost" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/feeds">
+      Today's Feed →
+    </a>
+  </div>
+</div>
+
+<!-- ── Stats ──────────────────────────────────────────────────────────────── -->
+<div class="section" style="padding-bottom:48px">
+  <div class="stats">
+    <div class="stat"><span class="stat-n">30+</span><span class="stat-l">Categories</span></div>
+    <div class="stat"><span class="stat-n">200+</span><span class="stat-l">Resources</span></div>
+    <div class="stat"><span class="stat-n">Daily</span><span class="stat-l">CVE Feed</span></div>
+    <div class="stat"><span class="stat-n">176 ★</span><span class="stat-l">GitHub Stars</span></div>
+  </div>
+</div>
+
+<!-- ── Daily Feed Strip ────────────────────────────────────────────────────── -->
+<div class="section" style="padding-bottom: 48px">
+  <div class="feed-strip">
+    <div class="feed-dot"></div>
+    <div class="feed-text">
+      <strong>Daily Digest — live now</strong>
+      <span>SANS ISC · The Hacker News · Schneier · PortSwigger · NVD Critical CVEs · KitPloit — committed every day at 06:00 UTC</span>
+    </div>
+    <a class="btn btn-ghost" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/feeds" style="flex-shrink:0">Read Today's →</a>
+  </div>
+</div>
+
+<!-- ── Offensive Tracks ────────────────────────────────────────────────────── -->
+<div class="section" id="offensive">
+  <div class="section-title">Offensive Security</div>
+  <div class="tracks">
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#f85149,#e3b341)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(248,81,73,.12)">🎯</div>
+        <div>
+          <div class="track-title">Pentest & Methodology</div>
+          <div class="track-sub">15 resources · checklists included</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">tools</span><span class="tag">checklists</span><span class="tag">methodology</span><span class="tag">password-cracking</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/pentest"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#f85149,#bc8cff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(248,81,73,.12)">🏰</div>
+        <div>
+          <div class="track-title">Active Directory</div>
+          <div class="track-sub">Attack paths, LAPS/PAM abuse, Kerberos</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">kerberoasting</span><span class="tag">LAPS</span><span class="tag">bloodhound</span><span class="tag">PAM</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/active-directory"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#58a6ff,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(88,166,255,.12)">🌐</div>
+        <div>
+          <div class="track-title">Web Hacking</div>
+          <div class="track-sub">21 techniques — SQLi to SSTI</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">SQLi</span><span class="tag">XSS</span><span class="tag">SSRF</span><span class="tag">SSTI</span><span class="tag">JWT</span><span class="tag">XXE</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/web-hacking"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#e3b341,#f85149)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(227,179,65,.12)">🦠</div>
+        <div>
+          <div class="track-title">Malware Development</div>
+          <div class="track-sub">Process injection, shellcode, AV evasion</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">shellcode</span><span class="tag">process-injection</span><span class="tag">AV-bypass</span><span class="tag">payloads</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/malware"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#bc8cff,#58a6ff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(188,140,255,.12)">🔬</div>
+        <div>
+          <div class="track-title">Reverse Engineering</div>
+          <div class="track-sub">ELF, x86, crackmes, GDB</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">ELF</span><span class="tag">x86</span><span class="tag">crackmes</span><span class="tag">GDB</span><span class="tag">Ghidra</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/reverse-engineering"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#3fb950,#58a6ff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(63,185,80,.12)">📊</div>
+        <div>
+          <div class="track-title">Enumeration</div>
+          <div class="track-sub">Port-by-port — SSH to WinRM</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">SMB</span><span class="tag">LDAP</span><span class="tag">DNS</span><span class="tag">Kerberos</span><span class="tag">RPC</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/enumeration"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#e3b341,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(227,179,65,.12)">⬆️</div>
+        <div>
+          <div class="track-title">Privilege Escalation</div>
+          <div class="track-sub">Linux &amp; Windows techniques</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">linux</span><span class="tag">windows</span><span class="tag">SUID</span><span class="tag">UAC-bypass</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/privilege-escalation"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#f85149,#e3b341)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(248,81,73,.12)">🔴</div>
+        <div>
+          <div class="track-title">Red Teaming</div>
+          <div class="track-sub">C2, AV bypass, covert infrastructure</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">Cobalt Strike</span><span class="tag">C2</span><span class="tag">AV-bypass</span><span class="tag">OPSEC</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/red-teaming"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#3fb950,#e3b341)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(63,185,80,.12)">📱</div>
+        <div>
+          <div class="track-title">Android Hacking</div>
+          <div class="track-sub">Frida, objection, SSL pinning</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">Frida</span><span class="tag">objection</span><span class="tag">SSL-pinning</span><span class="tag">GDB</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/android-hacking"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#58a6ff,#bc8cff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(88,166,255,.12)">💥</div>
+        <div>
+          <div class="track-title">Exploitation</div>
+          <div class="track-sub">x86, CPU internals, virtual memory</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">x86</span><span class="tag">assembly</span><span class="tag">virtual-memory</span><span class="tag">shellcode</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/exploitation"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#e3b341,#bc8cff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(227,179,65,.12)">🚪</div>
+        <div>
+          <div class="track-title">Post Exploitation</div>
+          <div class="track-sub">File transfer, pivoting, tunnelling</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">pivoting</span><span class="tag">tunnelling</span><span class="tag">file-transfer</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/post-exploitation"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#bc8cff,#f85149)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(188,140,255,.12)">☁️</div>
+        <div>
+          <div class="track-title">Cloud Hacking</div>
+          <div class="track-sub">AWS, GCP, Azure attack surface</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Azure</span><span class="tag">IAM</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/cloud-hacking"></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Defensive Tracks ────────────────────────────────────────────────────── -->
+<div class="section" id="defensive">
+  <div class="section-title">Defensive Security</div>
+  <div class="tracks">
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#3fb950,#58a6ff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(63,185,80,.12)">🛡️</div>
+        <div>
+          <div class="track-title">SOC &amp; Detection</div>
+          <div class="track-sub">Blue team techniques, alerting</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">detection</span><span class="tag">SIEM</span><span class="tag">alerts</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/soc"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#58a6ff,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(88,166,255,.12)">🚨</div>
+        <div>
+          <div class="track-title">Incident Response</div>
+          <div class="track-sub">IR playbooks, triage checklists</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">playbook</span><span class="tag">triage</span><span class="tag">containment</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/incident-response"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#bc8cff,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(188,140,255,.12)">🔍</div>
+        <div>
+          <div class="track-title">Forensics</div>
+          <div class="track-sub">Digital &amp; network forensics</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">disk-forensics</span><span class="tag">memory</span><span class="tag">network</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/forensics"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#e3b341,#3fb950)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(227,179,65,.12)">🕵️</div>
+        <div>
+          <div class="track-title">Threat Hunting</div>
+          <div class="track-sub">Proactive detection techniques</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">MITRE</span><span class="tag">IOC</span><span class="tag">behavioral</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/threat-hunting"></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Reference Tracks ────────────────────────────────────────────────────── -->
+<div class="section" id="reference">
+  <div class="section-title">Reference &amp; Skills</div>
+  <div class="tracks">
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#3fb950,#bc8cff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(63,185,80,.12)">🔎</div>
+        <div>
+          <div class="track-title">OSINT</div>
+          <div class="track-sub">Collection, tooling, tradecraft</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">reconnaissance</span><span class="tag">SOCMINT</span><span class="tag">geolocation</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/osint"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#58a6ff,#e3b341)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(88,166,255,.12)">⚙️</div>
+        <div>
+          <div class="track-title">Programming</div>
+          <div class="track-sub">C, C++, Python, Nim, Assembly</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">C</span><span class="tag">Python</span><span class="tag">Nim</span><span class="tag">Assembly</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/programming"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#e3b341,#58a6ff)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(227,179,65,.12)">🔐</div>
+        <div>
+          <div class="track-title">Cryptography</div>
+          <div class="track-sub">Theory, LFSR, applied crypto</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">LFSR</span><span class="tag">symmetric</span><span class="tag">asymmetric</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/cryptography"></a>
+    </div>
+
+    <div class="track">
+      <div class="track-accent" style="background: linear-gradient(90deg,#bc8cff,#e3b341)"></div>
+      <div class="track-head">
+        <div class="track-icon" style="background:rgba(188,140,255,.12)">📡</div>
+        <div>
+          <div class="track-title">Hardware &amp; RF</div>
+          <div class="track-sub">Firmware, MOSFET, Bluetooth</div>
+        </div>
+      </div>
+      <div class="track-tags"><span class="tag">firmware</span><span class="tag">Bluetooth</span><span class="tag">Ubertooth</span><span class="tag">SDR</span></div>
+      <a class="track-link" href="https://github.com/bb1nfosec/Information-Security-Tasks/tree/master/hardware-hacking"></a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Contribute ──────────────────────────────────────────────────────────── -->
+<div class="section">
+  <div class="contribute">
+    <div>
+      <h3>Add your knowledge to the gym</h3>
+      <p>Found a great writeup, tool, or technique? Submit it in 30 seconds. The bot reads the form, routes it to the right category, and closes the issue automatically. No PR needed.</p>
+    </div>
+    <a class="btn btn-primary" href="https://github.com/bb1nfosec/Information-Security-Tasks/issues/new?template=submit-resource.yml" style="flex-shrink:0; white-space:nowrap">
+      Submit a Resource →
+    </a>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+<footer>
+  <p>
+    <a href="https://github.com/bb1nfosec/Information-Security-Tasks">Information-Security-Tasks</a> ·
+    Built by <a href="https://github.com/bb1nfosec">@bbinfosec</a> ·
+    Token-optimized with <a href="https://github.com/bb1nfosec/Distill">distill-llm</a> ·
+    MIT License
+  </p>
+</footer>
+
+</body>
+</html>

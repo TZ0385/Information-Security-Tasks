@@ -5,6 +5,7 @@
 [![Stars](https://img.shields.io/github/stars/bb1nfosec/Information-Security-Tasks?style=flat-square)](https://github.com/bb1nfosec/Information-Security-Tasks/stargazers)
 [![Daily Feed](https://img.shields.io/badge/updated-daily-16a34a?style=flat-square)](feeds/)
 [![Submit](https://img.shields.io/badge/submit%20a%20resource-7c3aed?style=flat-square)](https://github.com/bb1nfosec/Information-Security-Tasks/issues/new?template=submit-resource.yml)
+[![Site](https://img.shields.io/badge/infosec--gym-live-0d1117?style=flat-square&logo=github)](https://bb1nfosec.github.io/Information-Security-Tasks)
 
 Knowledge should be free, accessible to all, and in one place.
 
