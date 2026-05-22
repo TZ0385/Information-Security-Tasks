@@ -11,6 +11,16 @@ Knowledge should be free, accessible to all, and in one place.
 
 ---
 
+## AI & Emerging Threats
+
+| Directory | Contents |
+|-----------|----------|
+| [ai-agents/](ai-agents/) | Agent hijacking, indirect injection, tool poisoning, MCP attacks, memory poisoning, multi-agent lateral movement |
+| [ai-security/](ai-security/) | LLM attacks, jailbreaking, data poisoning, model extraction, OWASP LLM Top 10 |
+| [ics-security/](ics-security/) | SCADA/PLC attacks, Modbus/DNP3/EtherNet-IP exploitation, critical infrastructure incidents |
+
+---
+
 ## Offensive Security
 
 | Directory | Contents |
