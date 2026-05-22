@@ -1,0 +1,61 @@
+# Wordlists — massive, zero LLM value
+Pentest/WordList-Compendium-master/
+
+# Binary/office formats — not readable as text
+*.pdf
+*.xlsx
+*.xls
+*.docx
+*.doc
+*.pptx
+*.ppt
+
+# Rendered HTML pages — not prose
+*.html
+*.htm
+
+# CVE JSON data — machine-readable, not prose
+2000/
+2001/
+2002/
+2003/
+2004/
+2005/
+2006/
+2007/
+2008/
+2009/
+2010/
+2011/
+2012/
+2013/
+2014/
+2015/
+2016/
+2017/
+2018/
+2019/
+2020/
+2021/
+2022/
+2023/
+2024/
+*.json
+
+# Raw URL dumps and reference link files
+final_links.txt
+links.txt
+OSINT/Websites for reference
+SOC/Websites for reference
+Auditing/Websites for reference
+Web/Websites for reference
+Post Exploitation/Windows Exploitation, post exploitation sites for reference.md
+
+# Personal attempt/lab notes (specific to one user's progress)
+approach-for-2nd-attempt/
+
+# Cloud certification study notes — large, off-topic for infosec ops
+CloudNotes-master/
+
+# Auto-generated table of contents
+SUMMARY.md
