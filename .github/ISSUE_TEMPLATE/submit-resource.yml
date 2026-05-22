@@ -1,0 +1,64 @@
+name: Submit a Resource
+description: Add a link, tool, writeup, or cheatsheet to the repo
+title: "[Resource] "
+labels: ["resource-submission"]
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Pentest / Red Team
+        - Web Hacking
+        - Active Directory
+        - Privilege Escalation
+        - Malware Development / Analysis
+        - Reverse Engineering
+        - OSINT
+        - Forensics / Incident Response
+        - Cloud Security
+        - Android / iOS Hacking
+        - Cryptography
+        - CTF / Writeup
+        - Tool Release
+        - CVE / Vulnerability
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: Title
+      placeholder: "BloodHound CE — Community Edition setup guide"
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      placeholder: "https://..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why is this valuable?
+      description: One or two sentences on what makes this worth adding.
+      placeholder: "Covers lateral movement in hybrid Azure/on-prem environments with real examples"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: quality
+    attributes:
+      label: Quality check
+      options:
+        - label: Link is live and working
+          required: true
+        - label: Content is original or a primary source (not an aggregator of aggregators)
+          required: true
+        - label: No paywall, login wall, or malware
+          required: true
