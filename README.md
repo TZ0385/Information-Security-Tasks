@@ -16,13 +16,7 @@ _<mark style="color:yellow;">Knowledge should be free, accessible to all, and in
 * <mark style="color:red;">Pentesting/Redteaming Methodologies</mark>
 * <mark style="color:red;">Theory</mark>
 
-## Special Thanks
 
-> _**I wanted to give a special thank you to Mr. Eltringham for always believing in me during my college experience. I could not have done it without you. I will forever keep your words of motivation and wisdom in the background with each professional decision I make going forward.**_
-
-> "_**You must have confidence in your competence.**_"
->
-> \~ Professor Russell
 
 ## Motivation
 
